@@ -1,3 +1,9 @@
+# Nathan Gomez
+# Mary Cottier
+## Team 2
+## CS 491 - Aerial Robotics
+## Final Project
+
 # aerial_robotics
 
 ## Install requirements
