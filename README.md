@@ -1,5 +1,6 @@
 # Nathan Gomez
 # Mary Cottier
+# Cole Gilliam
 ## Team 2
 ## CS 491 - Aerial Robotics
 ## Final Project
