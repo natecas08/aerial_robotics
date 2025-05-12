@@ -117,23 +117,29 @@ class FinalProject:
             rospy.sleep(0.5)
 
     # continues to output orientation info while in landing mode
-    def monitor_landing(self):
-        print("Monitoring landing...")
+def monitor_landing(self):
+    print("Landing initiated. Monitoring position and orientation...")
 
-        rate = rospy.Rate(2)
-        while not rospy.is_shutdown():
-            if self.apriltag_data:
-                orientation = self.apriltag_data.pose.pose.pose.orientation
-                position = self.apriltag_data.pose.pose.pose.position
-                print('Landing - Orientation: x=%.2f, y=%.2f, z=%.2f' %
-                      (orientation.x, orientation.y, orientation.z))
-            if position.z < 0.2: #exit program when drone has landed
-                print("Landing complete. Exiting program.")
+    rate = rospy.Rate(2)  # 2 Hz
+    while not rospy.is_shutdown():
+        if self.apriltag_data:
+            pose = self.apriltag_data.pose.pose.pose
+            position = pose.position
+            orientation = pose.orientation
+
+            print('Landing - Position: x=%.2f, y=%.2f, z=%.2f' %
+                  (position.x, position.y, position.z))
+            print('Landing - Orientation: x=%.2f, y=%.2f, z=%.2f' %
+                  (orientation.x, orientation.y, orientation.z))
+
+            if position.z < 0.2:
+                print("Landing complete. Exiting.")
                 rospy.signal_shutdown("Drone has landed")
                 break
-            else:
-                print("No AprilTag data during landing. Already aligned.")
-            rate.sleep()
+        else:
+            print("No AprilTag data during landing. Already aligned.")
+
+        rate.sleep()
 
 if __name__ == '__main__':
     FinalProject()
