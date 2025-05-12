@@ -83,7 +83,7 @@ class FinalProject:
             print('AprilTag orientation: x=%.2f, y=%.2f, z=%.2f' % (
                 orientation.x, orientation.y, orientation.z))
 
-            if abs(dx) < 1 and abs(dy) < 1:
+            if abs(dx) < 1.5 and abs(dy) < 1.5:
                 print('Target aligned, initiating landing.')
                 break
 
