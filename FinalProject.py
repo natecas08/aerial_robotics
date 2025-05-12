@@ -124,8 +124,13 @@ class FinalProject:
         while not rospy.is_shutdown():
             if self.apriltag_data:
                 orientation = self.apriltag_data.pose.pose.pose.orientation
+                position = self.apriltag_data.pose.pose.pose.position
                 print('Landing - Orientation: x=%.2f, y=%.2f, z=%.2f' %
                       (orientation.x, orientation.y, orientation.z))
+            if position.z < 0.2: #exit program when drone has landed
+                print("Landing complete. Exiting program.")
+                rospy.signal_shutdown("Drone has landed")
+                break
             else:
                 print("No AprilTag data during landing. Already aligned.")
             rate.sleep()
