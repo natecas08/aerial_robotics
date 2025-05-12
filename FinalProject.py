@@ -104,6 +104,8 @@ class FinalProject:
             control.channels = [roll, pitch, throttle, yaw] + [0] * 14
             pub.publish(control)
 
+            print('Orientation:\n roll=%.2f\n, pitch=%.2f\n, throttle=%.2f\n, yaw=%.2f\n' % (roll, pitch, throttle, yaw))
+
             rospy.sleep(0.5)
 
 if __name__ == '__main__':
