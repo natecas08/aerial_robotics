@@ -8,11 +8,11 @@ from mavros_msgs.msg import OverrideRCIn
 
 class FinalProject:
     def __init__(self):
-        # variables for storing information
+        # info storage variable
         self.apriltag_data = None
         self.apriltag_detection = False
 
-        # creating nodes and services
+        # create nodes and services
         rospy.init_node('final_project_node', anonymous=True)
         rospy.wait_for_service('/minihawk_SIM/mavros/set_mode')
         rospy.wait_for_service('/minihawk_SIM/mavros/cmd/arming')
@@ -73,9 +73,15 @@ class FinalProject:
             if not self.apriltag_data:
                 continue
 
+            # Position
             pos = self.get_apriltag_position(self.apriltag_data.pose)
             dx, dy = pos.x, pos.y
             print('AprilTag offset: dx=%.2f, dy=%.2f' % (dx, dy))
+
+            # Orientation (Quaternion)
+            orientation = self.apriltag_data.pose.pose.pose.orientation
+            print('AprilTag orientation: x=%.2f, y=%.2f, z=%.2f' % (
+                orientation.x, orientation.y, orientation.z))
 
             if abs(dx) < 1 and abs(dy) < 1:
                 print('Target aligned, initiating landing.')
@@ -104,9 +110,11 @@ class FinalProject:
             control.channels = [roll, pitch, throttle, yaw] + [0] * 14
             pub.publish(control)
 
-            print('Orientation:\n roll=%.2f\n, pitch=%.2f\n, throttle=%.2f\n, yaw=%.2f\n' % (roll, pitch, throttle, yaw))
+            print('Control signals: roll=%.2f, pitch=%.2f, throttle=%.2f, yaw=%.2f' %
+                  (roll, pitch, throttle, yaw))
 
             rospy.sleep(0.5)
+
 
 if __name__ == '__main__':
     FinalProject()
