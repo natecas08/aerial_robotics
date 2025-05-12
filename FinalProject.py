@@ -97,8 +97,11 @@ class FinalProject:
             pitch = int(max(1000, min(2000, 1500 + Kp * dx + Ki * ix + Kd * dx_d)))
             ex_prev = dx
 
+            throttle = 1500
+            yaw = 1500
+
             control = OverrideRCIn()
-            control.channels = [roll, pitch, 1500, 1500] + [0] * 14
+            control.channels = [roll, pitch, throttle, yaw] + [0] * 14
             pub.publish(control)
 
             rospy.sleep(0.5)
