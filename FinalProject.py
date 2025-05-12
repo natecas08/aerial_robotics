@@ -30,6 +30,7 @@ class FinalProject:
         self.wait_for_apriltag()
         self.finetune_position()
         self.set_mode('QLAND')
+        self.monitor_landing()
 
     def set_mode(self, mode_name):
         try:
@@ -115,6 +116,19 @@ class FinalProject:
 
             rospy.sleep(0.5)
 
+    # continues to output orientation info while in landing mode
+    def monitor_landing(self):
+        print("Monitoring landing...")
+
+        rate = rospy.Rate(2)
+        while not rospy.is_shutdown():
+            if self.apriltag_data:
+                orientation = self.apriltag_data.pose.pose.pose.orientation
+                print('Landing - Orientation: x=%.2f, y=%.2f, z=%.2f' %
+                      (orientation.x, orientation.y, orientation.z))
+            else:
+                print("No AprilTag data during landing. Already aligned.")
+            rate.sleep()
 
 if __name__ == '__main__':
     FinalProject()
