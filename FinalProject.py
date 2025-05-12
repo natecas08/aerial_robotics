@@ -132,7 +132,7 @@ class FinalProject:
                 print('Landing - Orientation: x=%.2f, y=%.2f, z=%.2f' %
                     (orientation.x, orientation.y, orientation.z))
 
-                if position.z < 0.2:
+                if position.z < 11:
                     print("Landing complete. Exiting.")
                     rospy.signal_shutdown("Drone has landed")
                     break
